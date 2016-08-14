@@ -35,7 +35,7 @@ export default class RequestAnInvite extends Component {
           onRequestClose={this.handleClose}
           autoScrollBodyContent
         >
-          <Form onRequestClose={this.handleClose} blah="yeah"/>
+          <Form onRequestClose={this.handleClose}/>
         </Dialog>
       </Box>
     );

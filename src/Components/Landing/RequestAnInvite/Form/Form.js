@@ -45,7 +45,7 @@ const Heading = ({children, ...other}) =>
 ;
 
 const Button = ({children, ...other}) =>
-  <FlatButton style={{width: '100%', marginTop: 16}} {...other}>{children}</FlatButton>
+  <FlatButton primary style={{width: '100%', marginTop: 16}} {...other}>{children}</FlatButton>
 ;
 
 const FormSubmitError = ({error, activity = 'submitting your request'}) =>
@@ -55,7 +55,7 @@ const FormSubmitError = ({error, activity = 'submitting your request'}) =>
 ;
 
 class Form extends Component {
-  // todo: convert to redux action
+  // todo: pull out; convert to redux action
   handleSubmit = (values, dispatch) => {
     return new Promise((resolve, reject) =>
       fetch(`${apiEndpoint}/fake-auth`, {
@@ -80,7 +80,6 @@ class Form extends Component {
 
         // all good...
         resolve();
-        return;
       })
       .catch(error => {
         // no valid response
