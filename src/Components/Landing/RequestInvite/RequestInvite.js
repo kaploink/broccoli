@@ -11,7 +11,7 @@ import Box from '../../_common/Box';
 // children
 import Form from './Form/Form.js';
 
-export default class RequestAnInvite extends Component {
+export default class RequestInvite extends Component {
   // todo: move to redux state
   state = {
     open: false,
@@ -35,12 +35,12 @@ export default class RequestAnInvite extends Component {
           onRequestClose={this.handleClose}
           autoScrollBodyContent
         >
-          <Form onRequestClose={this.handleClose}/>
+          <Form onRequestClose={this.handleClose} />
         </Dialog>
       </Box>
     );
   }
 }
 
-// export default Dimensions()(RequestAnInvite);
-export default RequestAnInvite;
+// export default Dimensions()(RequestInvite);
+export default RequestInvite;

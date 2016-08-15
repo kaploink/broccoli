@@ -2,8 +2,7 @@
 import React, { Component } from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { Field, reduxForm, formValueSelector, SubmissionError } from 'redux-form';
-import memoize from 'lru-memoize';
+import { Field, reduxForm, formValueSelector } from 'redux-form';
 import Radium from 'radium';
 
 // lib components
@@ -11,29 +10,13 @@ import FlatButton from 'material-ui/FlatButton';
 import { TextField as RFMUITextField } from 'redux-form-material-ui';
 
 // common
-import Box from '../../../_common/Box';
 import { fontFamilies } from '../../../_common/typography.js';
 
-const apiEndpoint = 'https://l94wc2001h.execute-api.ap-southeast-2.amazonaws.com/prod';
+// actions - todo: migrate to redux
+import submit from './submit';
+import validate from './validate';
 
-export const fields = [ 'name', 'email', 'confirmEmail' ];
-
-const validate =
-  memoize(10)(
-    values => ({
-      // chained for improved ux (display one error at a time)
-      name:
-        !values.name && 'Please provide a name',
-      email: values.name &&
-        !values.email && 'Please provide an email address',
-      confirmEmail: values.email && (
-        (!values.confirmEmail && 'Please confirm your email address') ||
-        (values.email !== values.confirmEmail && 'Oops, email addresses don\'t match')
-      ),
-    })
-  )
-;
-
+// child components - pull out when others need
 const TextField = props =>
   <RFMUITextField {...{
     hintStyle: {textTransform: 'uppercase', fontSize: 12},
@@ -54,40 +37,7 @@ const FormSubmitError = ({error, activity = 'submitting your request'}) =>
   </div>
 ;
 
-class Form extends Component {
-  // todo: pull out; convert to redux action
-  handleSubmit = (values, dispatch) => {
-    return new Promise((resolve, reject) =>
-      fetch(`${apiEndpoint}/fake-auth`, {
-        method: 'post',
-        body: JSON.stringify(
-          {
-            name: values.name,
-            email: values.email,
-          }
-        )
-      })
-      // parse response
-      .then(response =>
-        response.json().then(json => ({response, json}))
-      )
-      .then(({json, response}) => {
-        if (!response.ok) {
-          // got a validish error response (with optional message)
-          reject(new SubmissionError({_error: json.errorMessage}));
-          return;
-        }
-
-        // all good...
-        resolve();
-      })
-      .catch(error => {
-        // no valid response
-        reject(new SubmissionError());
-      })
-    );
-  };
-
+export class Form extends Component {
   renderFooter() {
     const {error, submitting, handleSubmit} = this.props;
 
@@ -99,7 +49,7 @@ class Form extends Component {
 
     return (
       <div>
-        <Button label="Send" onTouchTap={handleSubmit(this.handleSubmit)}/>
+        <Button label="Send" onTouchTap={handleSubmit(submit)}/>
         {error &&
           <FormSubmitError error={error} activity="sending your invite"/>
         }
@@ -108,8 +58,7 @@ class Form extends Component {
   }
 
   render() {
-    //const {containerWidth, containerHeight} = this.props;
-    const {onRequestClose, email, reset, handleSubmit, submitting, submitSucceeded, submitFailed} = this.props;
+    const {onRequestClose, email, submitSucceeded} = this.props;
 
     if (submitSucceeded) {
       return (
@@ -137,13 +86,12 @@ const enhance = compose(
   connect(
     (state, ownProps) => ({
       initialValues: {},
-      email: (formValueSelector('requestAnInvite'))(state, 'email'),
+      email: (formValueSelector('RequestInvite'))(state, 'email'),
       ...ownProps,
     }),
   ),
-  reduxForm({form: 'requestAnInvite', fields, validate}),
+  reduxForm({form: 'RequestInvite', validate}),
   Radium,
-  // Dimensions,
 );
 
 export default enhance(Form);

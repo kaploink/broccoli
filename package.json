@@ -3,6 +3,10 @@
   "version": "0.0.1",
   "private": true,
   "devDependencies": {
+    "babel-preset-es2016": "^6.11.3",
+    "babel-preset-stage-0": "^6.5.0",
+    "expect": "^1.20.2",
+    "jest-cli": "^14.1.0",
     "react-scripts": "0.2.1"
   },
   "dependencies": {
@@ -21,10 +25,23 @@
   },
   "scripts": {
     "start": "react-scripts start",
+    "test": "jest",
+    "debug_tests": "node-debug ./node_modules/jest-cli/bin/jest.js -i",
     "build": "react-scripts build",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
     "extends": "./node_modules/react-scripts/config/eslint.js"
+  },
+  "jest": {
+    "automock": false,
+    "testRegex": ".*\\.test.js$",
+    "moduleNameMapper": {
+      "^image![a-zA-Z0-9$_-]+$": "GlobalImageStub",
+      "^url![a-zA-Z0-9$_-]+$": "GlobalImageStub",
+      "^file![a-zA-Z0-9$_-]+$": "GlobalImageStub",
+      "^[./a-zA-Z0-9$_-]+\\.png$": "RelativeImageStub",
+      "^[./a-zA-Z0-9$_-]+\\.jpg$": "RelativeImageStub"
+    }
   }
 }

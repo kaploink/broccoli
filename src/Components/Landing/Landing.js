@@ -2,20 +2,16 @@
 import React, { Component } from 'react';
 
 // lib components
-import Dialog from 'material-ui/Dialog';
-import FlatButton from 'material-ui/FlatButton';
-import RaisedButton from 'material-ui/RaisedButton';
 import Dimensions from 'react-dimensions';
-import ReactPlayer from 'react-player';
-
-import TextField from 'material-ui/TextField';
 
 // common
 import Box from '../_common/Box';
 import { fontFamilies } from '../_common/typography.js';
 
 // children
-import RequestAnInvite from './RequestAnInvite/RequestAnInvite';
+import RequestInvite from './RequestInvite/RequestInvite';
+
+import background from './_assets/background.jpg';
 
 class Landing extends Component {
   render() {
@@ -29,7 +25,7 @@ class Landing extends Component {
         <Box style={_s.main} column flex="1 0 0" justifyContent="center" alignItems="center" textAlign="center">
           <h1 style={_s.title}>A better way<br/> to enjoy every day.</h1>
           <p style={_s.info}>Be the first to know when we launch.</p>
-          <RequestAnInvite/>
+          <RequestInvite/>
         </Box>
         <Box style={_s.footer} column alignItems="center" textAlign="center" padding="20px">
           Made with ♥ in Melbourne.<br/>
@@ -48,7 +44,7 @@ const _s = {
     color: 'white',
     textShadow: 'black 0px 0px 10px, black 0px 0px 50px',
     fontFamily: fontFamilies.normal,
-    background: `url(${require('./_assets/background.jpg')}) center center`,
+    background: `url(${background}) center center`,
     backgroundSize: 'cover',
   },
   header: {
@@ -56,18 +52,17 @@ const _s = {
     textTransform: 'uppercase',
     fontFamily: 'BioRhyme, serif',
   },
+  main: {
+    borderTop: '1px solid rgba(255,255,255,0.2)',
+    borderBottom: '1px solid rgba(255,255,255,0.2)',
+  },
   title: {
-    // textAlign: 'center',
     fontFamily: fontFamilies.heading,
     fontWeight: 'normal',
     lineHeight: 1.2,
     fontSize: 36,
   },
   info: {
-  },
-  main: {
-    borderTop: '1px solid rgba(255,255,255,0.2)',
-    borderBottom: '1px solid rgba(255,255,255,0.2)',
   },
   footer: {
     opacity: 0.5,
